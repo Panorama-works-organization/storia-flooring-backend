@@ -145,6 +145,7 @@ class productController extends Controller
     }
     public function queryImageByName($filename = "Frame_1133")
     {
+
         $client = new Graphql(env('SHOPIFY_APP_HOST_NAME'), env('SHOPIFY_ACCESS_TOKEN'));
         $query = <<<QUERY
         query {
@@ -161,8 +162,16 @@ class productController extends Controller
         QUERY;
         $response = $client->query(["query" => $query]);
         $response = $response->getDecodedBody();
-        $imageID = $response['data']['files']['edges'][0]['node']['id'];
-        return $imageID;
+
+        try {
+            $imageID = $response['data']['files']['edges'][0]['node']['id'];
+            return $imageID;
+        } catch (\Throwable $th) {
+            return null;
+        }
+
+
+
     }
     public function uploadPDFToShopify($fileURL, $type)
     {
@@ -258,6 +267,46 @@ class productController extends Controller
                 $code = 200;
             }
         } catch (\Exception $e) {
+            $response = [
+                "status" => false,
+                "error" => $e->getMessage()
+            ];
+        } finally {
+            return $response;
+        }
+    }
+
+    public function getCustomerMetafields($id = "gid://shopify/Customer/6146723381305")
+    {
+        $response = null;
+        try {
+            Log::info("attempting to get customer metafields");
+            $client = new Graphql(env('SHOPIFY_APP_HOST_NAME'), env('SHOPIFY_ACCESS_TOKEN'));
+            $query = <<<QUERY
+            query {
+                customer(id: "$id") {
+                    metafield(key: "catalogs", namespace: "custom") {
+                        value
+                    }
+                }
+            }
+            QUERY;
+            $target = $client->query(["query" => $query]);
+            $targetDecode = $target->getDecodedBody();
+            if ($targetDecode['data']['customer']['metafield'] == null) {
+                $targetDecode['data']['customer']['metafield'] = [
+                    'value' => "[]"
+                ];
+            } else {
+                if (isset($targetDecode['errors'])) {
+                    throw new Exception($targetDecode['errors'][0]['message']);
+                }
+            }
+            $response = [
+                "status" => true,
+                "catalog_ids" => json_decode($targetDecode['data']['customer']['metafield']['value'])
+            ];
+        } catch (Exception $e) {
             $response = [
                 "status" => false,
                 "error" => $e->getMessage()
@@ -449,14 +498,16 @@ class productController extends Controller
                 } else {
                     $planSizeUrl = '';
                 }
+
                 $variants = [];
                 foreach ($product->variants as $key => $variant) {
                     $currentProduct = array_filter($productsRequest, function ($item) use ($variant) {
-                        return $variant->id === intval($item['variant_id']);
+                        return $variant->id === intval($item);
                     });
                     if (count($currentProduct) == 0) {
                         continue;
                     }
+
                     $currentProduct = reset($currentProduct);
 
                     $imageUrl = $currentProduct['productImageSrc'];
@@ -471,6 +522,7 @@ class productController extends Controller
                         ];
                     }
                 }
+
                 $products[] = [
                     "id" => $product->id,
                     "title" => $product->title,
@@ -522,7 +574,7 @@ class productController extends Controller
 
     public function createCatalogMetaobject($fields)
     {
-        $type = 'catalogos';
+        $type = 'catalogs';
         $response  = null;
 
         try {
@@ -550,7 +602,6 @@ class productController extends Controller
                     "fields" => $fields
                 ]
             ];
-
             $target = $client->query(["query" => $query, "variables" => $variables]);
             $targetDecode = $target->getDecodedBody();
 
@@ -558,8 +609,10 @@ class productController extends Controller
                 throw new Exception($targetDecode['errors'][0]['message']);
             }
             if (isset($targetDecode['data']['metaobjectCreate']['userErrors'][0])) {
+
                 throw new Exception($targetDecode['data']['metaobjectCreate']['userErrors'][0]['message']);
             }
+
             $response = [
                 "status" => true,
                 "metaobject_id" => $targetDecode['data']['metaobjectCreate']['metaobject']['id']

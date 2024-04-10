@@ -161,7 +161,7 @@
                               <tbody>
                                 <tr>
                                   <td class="shop-name__cell" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;">
-                                    <img src="https://images.squarespace-cdn.com/content/v1/6070be47d888e858609b388e/38ceea90-5063-4cfd-9324-08ecb855c1f0/Recurso+2DANIELOROZCO.png" alt="DanielOrozco" width="135">
+                                    <img src="https://i.imgur.com/t74hsYr.png" alt="DanielOrozco" width="135">
                                   </td>
 
                                   <td class="order-number__cell" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; text-transform: uppercase; font-size: 14px; color: #999;" align="right">

@@ -19,7 +19,7 @@ class Controller extends BaseController
     {
         $session = new Session(
             Str::uuid(),
-            "daniel-orozco-2023.myshopify.com",
+            "storia-flooring.myshopify.com",
             false,
             "9f4310d533023e562408a07f8a2a7010"
         );

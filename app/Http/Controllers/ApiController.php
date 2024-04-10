@@ -541,4 +541,15 @@ class ApiController extends Controller
             return response()->json(['mensaje' => 'Error al intentar borrar el archivo: ' . $e->getMessage()]);
         }
     }
+
+    public function prueba() {
+        $customerMail = 'gaston@panorama.works';
+        //$catalogName = 'Gaston';
+        //$date = '24/12/1999';
+        //$this->sendCreatedEmail($customerMail, $catalogName, $date);
+        $customerGID = 'gid://shopify/Customer/6495495389263';
+        $productController = new productController();
+        $catalogIds = $productController->getCustomerMetafields($customerMail);
+        dd($catalogIds);
+    }
 }

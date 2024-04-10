@@ -21,6 +21,7 @@ class createController extends Controller
             Log::info('---Init new catalog---');
             $request->validate([
                 'customerMail' => 'required|string',
+                'customerGID' => 'required',
                 'catalogName' => 'required|string',
                 'catalogDate' => 'required',
                 'customerName' => 'required|string',
@@ -42,7 +43,6 @@ class createController extends Controller
             $pdf_url = Storage::disk('public')->url($pdfFilename);
 
             Log::info('catalog stored in server');
-
             $catalogDate = new \DateTime($catalogDataCompiled['date']);
             $productController = new productController;
 
@@ -51,36 +51,68 @@ class createController extends Controller
             $firstImageName = $this->getImageNameFromUrl($catalogDataCompiled['firstSlideImageURL']);
             $firstImageId = $productController->queryImageByName($firstImageName);
 
-            $catalogsFields = [
-                [
-                    "key" => "internal_name",
-                    "value" => $catalogDataCompiled['catalog_internal_name'],
-                ],
-                [
-                    "key" => "catalog_name",
-                    "value" => $catalogDataCompiled['catalogName'],
-                ],
-                [
-                    "key" => "catalog_image",
-                    "value" => $firstImageId,
-                ],
-                [
-                    "key" => "catalog_date",
-                    "value" => date_format($catalogDate, DateTime::ATOM),
-                ],
-                [
-                    "key" => "email",
-                    "value" => $catalogDataCompiled['customerMail'],
-                ],
-                [
-                    "key" => "client_name",
-                    "value" => $catalogDataCompiled['customerName'],
-                ],
-                [
-                    "key" => "catalog_file",
-                    "value" => $pdfShopifyId
-                ]
-            ];
+
+            if ($firstImageId != null) {
+                $catalogsFields = [
+                    [
+                        "key" => "internal_name",
+                        "value" => $catalogDataCompiled['catalog_internal_name'],
+                    ],
+                    [
+                        "key" => "name",
+                        "value" => $catalogDataCompiled['catalogName'],
+                    ],
+                    [
+                        "key" => "image",
+                        "value" => $firstImageId,
+                    ],
+                    [
+                        "key" => "date",
+                        "value" => date_format($catalogDate, DateTime::ATOM),
+                    ],
+                    [
+                        "key" => "client_email",
+                        "value" => $catalogDataCompiled['customerMail'],
+                    ],
+                    [
+                        "key" => "client_name",
+                        "value" => $catalogDataCompiled['customerName'],
+                    ],
+                    [
+                        "key" => "file",
+                        "value" => $pdfShopifyId
+                    ]
+                ];
+            } else {
+                $catalogsFields = [
+                    [
+                        "key" => "internal_name",
+                        "value" => $catalogDataCompiled['catalog_internal_name'],
+                    ],
+                    [
+                        "key" => "name",
+                        "value" => $catalogDataCompiled['catalogName'],
+                    ],
+                    [
+                        "key" => "date",
+                        "value" => date_format($catalogDate, DateTime::ATOM),
+                    ],
+                    [
+                        "key" => "client_email",
+                        "value" => $catalogDataCompiled['customerMail'],
+                    ],
+                    [
+                        "key" => "client_name",
+                        "value" => $catalogDataCompiled['customerName'],
+                    ],
+                    [
+                        "key" => "file",
+                        "value" => $pdfShopifyId
+                    ]
+                ];
+            }
+
+
             $catalogMetaobject = $productController->createCatalogMetaobject($catalogsFields);
             if (!$catalogMetaobject) {
                 throw new Exception($catalogMetaobject['message']);
@@ -147,10 +179,12 @@ class createController extends Controller
     public function compileCatalogData($request)
     {
         $customerController = new customerController();
-        $customerGID = $customerController->getCustomerData($request->customerMail);
+
+        //$customerGID = $customerController->getCustomerData($request->customerMail);
+        $customerGID = $request->customerGID;
 
         $timeStamp = now()->format('YmdHis');
-        $customerId = explode('/', $customerGID['id'])[4];
+        $customerId = explode('/', $customerGID)[4];
         $internalName = $customerId . '_catalog_' .  $timeStamp;
         $productController = new productController;
         $products = $productController->getAllProductByIds($request->productsIds);
