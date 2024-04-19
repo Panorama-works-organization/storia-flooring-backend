@@ -602,12 +602,14 @@ class productController extends Controller
                     "fields" => $fields
                 ]
             ];
+
             $target = $client->query(["query" => $query, "variables" => $variables]);
             $targetDecode = $target->getDecodedBody();
 
             if (isset($targetDecode['errors'][0])) {
                 throw new Exception($targetDecode['errors'][0]['message']);
             }
+
             if (isset($targetDecode['data']['metaobjectCreate']['userErrors'][0])) {
 
                 throw new Exception($targetDecode['data']['metaobjectCreate']['userErrors'][0]['message']);

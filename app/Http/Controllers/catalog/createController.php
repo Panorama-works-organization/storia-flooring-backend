@@ -50,6 +50,8 @@ class createController extends Controller
             Log::info('catalog updated to server');
             $firstImageName = $this->getImageNameFromUrl($catalogDataCompiled['firstSlideImageURL']);
             $firstImageId = $productController->queryImageByName($firstImageName);
+            $type = 'IMAGE';
+            $imageGID = $productController->uploadPDFToShopify($catalogDataCompiled['firstSlideImageURL'], $type);
 
 
             if ($firstImageId != null) {
@@ -62,9 +64,13 @@ class createController extends Controller
                         "key" => "name",
                         "value" => $catalogDataCompiled['catalogName'],
                     ],
+                    // [
+                    //     "key" => "image",
+                    //     "value" => $firstImageId,
+                    // ],
                     [
                         "key" => "image",
-                        "value" => $firstImageId,
+                        "value" => $imageGID,
                     ],
                     [
                         "key" => "date",
@@ -94,6 +100,10 @@ class createController extends Controller
                         "value" => $catalogDataCompiled['catalogName'],
                     ],
                     [
+                        "key" => "image",
+                        "value" => $imageGID,
+                    ],
+                    [
                         "key" => "date",
                         "value" => date_format($catalogDate, DateTime::ATOM),
                     ],
@@ -111,7 +121,6 @@ class createController extends Controller
                     ]
                 ];
             }
-
 
             $catalogMetaobject = $productController->createCatalogMetaobject($catalogsFields);
             if (!$catalogMetaobject) {

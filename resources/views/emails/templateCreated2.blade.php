@@ -172,14 +172,14 @@
                                                                 <tr>
                                                                     <td class="shop-name__cell">
                                                                         <img src="https://i.imgur.com/t74hsYr.png"
-                                                                            alt="DanielOrozco" width="135">
+                                                                            alt="Storia" width="135">
                                                                     </td>
 
                                                                     <td class="order-number__cell"
                                                                         style="text-transform: uppercase; font-size: 14px; color: #999;"
                                                                         align="right">
                                                                         <span class="order-number__text"
-                                                                            style="font-family: 'Open Sans'; font-size: 16px;">
+                                                                            style="font-family: 'Serif'; font-size: 16px;">
                                                                             {{ $date }}
                                                                         </span>
                                                                     </td>
@@ -223,7 +223,7 @@
                                                                 <tr>
                                                                     <td class="actions__cell">
                                                                         <p
-                                                                            style="font-family: 'Open Sans'; font-size: 16px; color: #101010;">
+                                                                            style="font-family: 'Serif'; font-size: 16px; color: #101010;">
                                                                             Ingresa a tu cuenta para descargarlo.</p>
                                                                         <table class="button main-action-cell"
                                                                             style="border-spacing: 0; border-collapse: collapse; float: left; margin-right: 15px;">
@@ -236,7 +236,7 @@
 
                                                                                         <a href="https://storia-flooring.myshopify.com/account/"
                                                                                             class="button__text"
-                                                                                            style="font-family: 'Open Sans'; font-size: 16px; text-decoration: none; display: block; color: #fff; padding: 20px 25px;">Ir
+                                                                                            style="font-family: 'Serif'; font-size: 16px; text-decoration: none; display: block; color: #fff; padding: 20px 25px;">Ir
                                                                                             a mi cuenta</a>
                                                                                     </td>
                                                                                 </tr>
@@ -271,11 +271,11 @@
                                                     <td>
 
                                                         <p class="disclaimer__subtext"
-                                                            style="font-family: 'Open Sans'; color: #999; line-height: 150%; font-size: 14px; margin: 0;">
+                                                            style="font-family: 'Serif'; color: #999; line-height: 150%; font-size: 14px; margin: 0;">
                                                             Si tienes alguna pregunta, responde este correo electrónico
                                                             o contáctanos a través de <a
                                                                 href="mailto:santiago@storiaflooring.com"
-                                                                style="font-family: 'Open Sans'; font-size: 14px; text-decoration: none; color: #101010;">santiago@storiaflooring.com</a>
+                                                                style="font-family: 'Serif'; font-size: 14px; text-decoration: none; color: #101010;">santiago@storiaflooring.com</a>
                                                         </p>
                                                     </td>
                                                 </tr>
