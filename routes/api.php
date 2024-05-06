@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::POST('/catalog/generate', [createController::class, 'createCatalog']);
-    Route::GET('/prueba', [ApiController::class, 'prueba']);
+    Route::POST('/catalog/test', [createController::class, 'test']);
+    Route::POST('/catalog/test2', [createController::class, 'test2']);
 });

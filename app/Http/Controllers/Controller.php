@@ -21,7 +21,7 @@ class Controller extends BaseController
             Str::uuid(),
             "storia-flooring.myshopify.com",
             false,
-            "9f4310d533023e562408a07f8a2a7010"
+            "3f2596d4644fb7c93dddb9a1fb7863af"
         );
         $session->setAccessToken(env('SHOPIFY_ACCESS_TOKEN'));
         $session->setScope(env('SHOPIFY_APP_SCOPES'));

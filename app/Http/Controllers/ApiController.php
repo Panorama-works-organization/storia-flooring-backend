@@ -543,13 +543,24 @@ class ApiController extends Controller
     }
 
     public function prueba() {
-        $customerMail = 'gaston@panorama.works';
-        //$catalogName = 'Gaston';
-        //$date = '24/12/1999';
-        //$this->sendCreatedEmail($customerMail, $catalogName, $date);
-        $customerGID = 'gid://shopify/Customer/6495495389263';
-        $productController = new productController();
-        $catalogIds = $productController->getCustomerMetafields($customerMail);
-        dd($catalogIds);
+        $data = []; // Puedes pasar datos adicionales a tu vista si es necesario
+        $dompdf = new DompdfDompdf();
+        $options = $dompdf->getOptions();
+            $options->setFontCache(storage_path('fonts'));
+            $options->set('isRemoteEnabled', true);
+            $options->set('pdfBackend', 'CPDF');
+            $options->setChroot([
+                'resources/views/',
+                storage_path('fonts'),
+            ]);
+
+        $pdf = PDF::loadView('catalog2', $data);
+        return $pdf;
+
+        // Guardar el PDF en el almacenamiento temporal
+        $tempFilePath = 'temp/' . uniqid() . '.pdf';
+        Storage::put($tempFilePath, $pdf->output());
+
+        return $tempFilePath; // Retorna la ruta del archivo temporal
     }
 }

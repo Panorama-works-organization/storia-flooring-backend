@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use Dompdf;
+use Dompdf\Dompdf as DompdfDompdf;
 
 class createController extends Controller
 {
@@ -211,5 +213,43 @@ class createController extends Controller
             'catalog_internal_name' => $internalName
         ];
         return $templateData;
+    }
+
+    public function test()
+    {
+        $data = []; // Puedes pasar datos adicionales a tu vista si es necesario
+        $dompdf = new DompdfDompdf();
+        $options = $dompdf->getOptions();
+            $options->setFontCache(storage_path('fonts'));
+            $options->set('isRemoteEnabled', true);
+            $options->set('pdfBackend', 'CPDF');
+            $options->setChroot([
+                'resources/views/',
+                storage_path('fonts'),
+            ]);
+
+        $pdf = PDF::loadView('catalog2', $data);
+
+        // Guardar el PDF en el almacenamiento temporal
+        $tempFilePath = 'temp/' . uniqid() . '.pdf';
+        Storage::put($tempFilePath, $pdf->output());
+
+        return $tempFilePath; // Retorna la ruta del archivo temporal
+    }
+
+    public function test2(Request $request)
+    {
+        $request->validate([
+            'customerMail' => 'required|string',
+            'customerGID' => 'required',
+            'catalogName' => 'required|string',
+            'catalogDate' => 'required',
+            'customerName' => 'required|string',
+            'productsIds' => 'required|array',
+        ]);
+        
+        $productController = new productController;
+        $products = $productController->getAllProductByIds($request->productsIds);
+        dd($products);
     }
 }
