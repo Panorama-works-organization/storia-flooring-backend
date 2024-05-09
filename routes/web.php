@@ -18,10 +18,10 @@ use App\Http\Controllers\bluehostController;
 |
 */
 
-Route::get('/', function () {
-    $pdf = PDF::loadView('catalog2');
-    return $pdf->stream('prueba.pdf');
-    //return view('catalog');
-});
+// Route::get('/', function () {
+//     // $pdf = PDF::loadView('catalog2');
+//     // return $pdf->stream('prueba.pdf');
+//     //return view('catalog');
+// });
 
 Route::get('/start', [ApiController::class, 'start'])->name('start');

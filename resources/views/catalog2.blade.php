@@ -41,19 +41,20 @@
         }
         body {
             line-height: 1;
-            font-family: sans-serif;
+            /* font-family: sans-serif; */
         }
-        @font-face {
-	        font-family: 'PlayfairDisplay-Medium';
-	        font-style: normal;
-	        font-weight: normal;
-	        src: url("../storage/fonts/PlayfairDisplay-Medium.otf") format('opentype');
-	    }
         @font-face {
 	        font-family: 'Arimo-Regular';
 	        font-style: normal;
 	        font-weight: normal;
-	        src: url("../storage/fonts/Arimo-Regular.otf") format('opentype');
+	        src: url("../storage/fonts/Arimo-Regular.ttf") format('truetype');
+	    }
+
+        @font-face {
+	        font-family: 'PlayfairDisplay-Medium';
+	        font-style: normal;
+	        font-weight: normal;
+	        src: url("../storage/fonts/PlayfairDisplay-Medium.ttf") format('truetype');
 	    }
         ol, ul {
             list-style: none;
@@ -86,7 +87,7 @@
     ****
     -->
 
-    <section id="front-page" style="background-image: url(https://i.imgur.com/sbZe94O.jpeg); background-size: cover; padding: 50px 50px 50px 50px;">
+    <section id="front-page" style="background-image: url({{$data['firstSlideImageURL']}}); background-size: cover; padding: 50px 50px 50px 50px;">
         <table style="width: 100%; height: 10%;">
             <tr>
                 <td style="text-align: center; vertical-align: middle;">
@@ -98,8 +99,8 @@
         </table>
         <table style="width: 100%; height: 10%;">
             <tr>
-                <td style="color: white; font-size: xx-large; font-weight: bold; font-family:'Arimo-Regular';">Titulo de PRUEBA</td> 
-                <td style="color: white; font-size: large; font-family: 'PlayfairDisplay-Medium'; justify-content:end;">Subtitulo de PRUEBA</td>
+                <td style="color: white; font-size: xx-large; font-family:'PlayfairDisplay-Medium';">{{$data['catalogName']}}</td> 
+                <td style="color: white; font-size: large; font-family: 'Arimo-Regular'; justify-content:end;">{{$data['catalogSubtitle']}}</td>
             </tr>
         </table>
         <table style="width: 30%; height: 5%;">
@@ -110,8 +111,8 @@
         </table>
         <table style="width: 27%; height: 75%;">
             <tr>
-                <td style="color: white; font-family: 'PlayfairDisplay-Medium';">Gaston Corredoira</td>
-                <td style="color: white; font-family: 'PlayfairDisplay-Medium';">05/05/2024</td>
+                <td style="color: white; font-family: 'Arimo-Regular';">{{$data['customerName']}}</td>
+                <td style="color: white; font-family: 'Arimo-Regular';">{{$data['date']}}</td>
             </tr>
         </table>
     </section>
@@ -122,7 +123,7 @@
         Hacer un foreach de cada producto con un array de datos cuando ande shopify
     ****
     -->
-
+@foreach ($data['products'] as $product)
     <section id="main-body" style="background: #EDECE6; background-size: cover; padding: 50px;">
         <table style="width: 100%; height: 10%;">
             <tr>
@@ -137,7 +138,7 @@
             <tr>
                 <td style="width: 40%; height: 50%; text-align: center; vertical-align: middle;">
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <img src="https://www.cienciasinseso.com/wp-content/uploads/2013/08/estudias.jpg" alt="product-image" width="300" height="300">
+                        <img src="{{$product['image_url']}}" alt="product-image" width="300" height="300">
                     </div>
                 </td>
                 <td style="width: 60%;">
@@ -148,81 +149,12 @@
                             <td><hr></td>
                             <td><hr></td>
                         </tr>
-                        <tr>
-                            <td style="font-weight: 0">MATERIAL</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>ORIGIN</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>SPECIES</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>COLLECTION</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td><hr></td>
-                            <td><hr></td>
-                        </tr>
-                    </table>
-                    <p style="font-size: x-large; margin: 50px 0 10px 0">Specifications</p>
-                    <table style="width: 100%;">
-                        <tr>
-                            <td><hr></td>
-                            <td><hr></td>
-                        </tr>
-                        <tr>
-                            <td>FINISH</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>PATTERN</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>SURFACE TEXTURE</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>MILLING PROFILE</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>EDGE PROFILE</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>GRADE</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>WEAR LEVER</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>THICKNESS</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>WIDTH</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>LENGHT</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>INSTALLATION METHOD</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
-                        <tr>
-                            <td>WARRANTY</td>
-                            <td style="text-align: right">Hola</td>
-                        </tr>
+                        @foreach ($product['metafields'] as $metafield)
+                            <tr>
+                                <td style="font-family: 'Arimo-Regular';">{{$metafield['key']}}</td>
+                                <td style="text-align: right; font-family: 'Arimo-Regular';">{{$metafield['value']}}</td>
+                            </tr>
+                        @endforeach
                         <tr>
                             <td><hr></td>
                             <td><hr></td>
@@ -231,11 +163,14 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 35%; height: 10%; text-align: center; vertical-align: top; font-size: xx-large">Prueba producto</td>
+                <td style="width: 35%; height: 10%; text-align: center; vertical-align: top; font-size: xx-large; font-family: 'Arimo-Regular';">{{$product['title']}}</td>
+            </tr>
+            <tr>
+                <td style="width: 35%; height: 10%; text-align: center; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['min_price']}} / {{$product['max_price']}}</td>
             </tr>
         </table>
     </section>
-    
+@endforeach
     <!--
     ****
         Pagina 3
@@ -254,17 +189,17 @@
                 </td>
             </tr>
         </table>
-        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; margin: 40px 0 0 0;">The perfect</p>
-        <p style="color: white; text-align: center; justify-content: center; font-size: 40px;">flooring solutions.</p>
-        <hr style="height 4px; background-color: white; margin: 196px 0 0 0;">
+        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; margin: 40px 0 0 0; font-family:'PlayfairDisplay-Medium';">The perfect</p>
+        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; font-family:'PlayfairDisplay-Medium';">flooring solutions.</p>
+        <hr style="height 4px; background-color: white; margin: 185px 0 0 0;">
         <table style="width: 100%; heigth: 100%; margin: 25px 0 0 0;">
             <tr>
-                <td style="color: white;">© {{now()->year}} Storia Flooring. All rights reserved.</td>
+                <td style="color: white; font-family: 'Arimo-Regular';">© {{now()->year}} Storia Flooring. All rights reserved.</td>
                 <td style="color: white; text-align: right;">
-                    <a style="color: white; text-decoration:none;" href="https://storiaflooring.com/" target="_blank">@StoriaFlooring</a>
+                    <a style="color: white; text-decoration:none; font-family: 'Arimo-Regular';" href="https://storiaflooring.com/" target="_blank">@StoriaFlooring</a>
                 </td>
                 <td style="color: white; text-align: right;">
-                    <a style="color: white; text-decoration:none;" href="https://storiaflooring.com/" target="_blank">www.storiaflooring.com</a>
+                    <a style="color: white; text-decoration:none; font-family: 'Arimo-Regular';" href="https://storiaflooring.com/" target="_blank">www.storiaflooring.com</a>
                 </td>
             </tr>
         </table>

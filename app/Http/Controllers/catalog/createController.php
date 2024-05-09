@@ -25,6 +25,7 @@ class createController extends Controller
                 'customerMail' => 'required|string',
                 'customerGID' => 'required',
                 'catalogName' => 'required|string',
+                'catalogSubtitle' => 'required|string',
                 'catalogDate' => 'required',
                 'customerName' => 'required|string',
                 'firstSlideImageURL' => 'required|url',
@@ -187,24 +188,24 @@ class createController extends Controller
         }
         return $updateMetafieldResponse;
     }
+
     public function compileCatalogData($request)
     {
         $customerController = new customerController();
-
-        //$customerGID = $customerController->getCustomerData($request->customerMail);
-        $customerGID = $request->customerGID;
+        $customerGID = $request->customerId;
 
         $timeStamp = now()->format('YmdHis');
         $customerId = explode('/', $customerGID)[4];
         $internalName = $customerId . '_catalog_' .  $timeStamp;
-        $productController = new productController;
-        $products = $productController->getAllProductByIds($request->productsIds);
+        //$productController = new productController;
+        //$products = $productController->getAllProductByIds($request->productsIds);
         $catalogNameChanged = str_replace(' ', '_', $request->catalogName);
         $templateData = [
-            'products' => $products,
+            'products' => $request->products,
             'date' => $request->catalogDate,
             'customerName' => $request->customerName,
             'catalogName' => $request->catalogName,
+            'catalogSubtitle' => $request->catalogSubtitle,
             'firstSlideImageURL' => $request->firstSlideImageURL,
             'catalogNameChanged' => $catalogNameChanged,
             'timeStamp' => $timeStamp,
@@ -215,41 +216,141 @@ class createController extends Controller
         return $templateData;
     }
 
-    public function test()
+    public function createCatalog2(Request $request)
     {
-        $data = []; // Puedes pasar datos adicionales a tu vista si es necesario
-        $dompdf = new DompdfDompdf();
-        $options = $dompdf->getOptions();
-            $options->setFontCache(storage_path('fonts'));
-            $options->set('isRemoteEnabled', true);
-            $options->set('pdfBackend', 'CPDF');
-            $options->setChroot([
-                'resources/views/',
-                storage_path('fonts'),
+        $response = $code = null;
+        try {
+            Log::info('---Init new catalog---');
+            $request->validate([
+                'customerMail' => 'required|string',
+                'catalogName' => 'required|string',
+                'customerName' => 'required|string',
+                'customerId' => 'required',
+                'catalogDate' => 'required',
+                'firstSlideImageURL' => 'required|url',
+                'products' => 'required|array',
+            ]);
+            Log::info('Pass validation request data');
+
+            $catalogDataCompiled = $this->compileCatalogData($request);
+
+            Log::info('Data compiled');
+            $pdf = PDF::loadView('catalog2', [
+                "data" => $catalogDataCompiled
             ]);
 
-        $pdf = PDF::loadView('catalog2', $data);
+            Log::info('Data pass to catalog view');
+            $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
+            Storage::disk('public')->put($pdfFilename, $pdf->output());
+            $pdf_url = Storage::disk('public')->url($pdfFilename);
 
-        // Guardar el PDF en el almacenamiento temporal
-        $tempFilePath = 'temp/' . uniqid() . '.pdf';
-        Storage::put($tempFilePath, $pdf->output());
+            Log::info('catalog stored in server');
+            $catalogDate = new \DateTime($catalogDataCompiled['date']);
+            $productController = new productController;
 
-        return $tempFilePath; // Retorna la ruta del archivo temporal
-    }
+            $pdfShopifyId = $productController->uploadPDFToShopify($pdf_url, "FILE");
+            Log::info('catalog updated to server');
+            $firstImageName = $this->getImageNameFromUrl($catalogDataCompiled['firstSlideImageURL']);
+            $firstImageId = $productController->queryImageByName($firstImageName);
+            $type = 'IMAGE';
+            $imageGID = $productController->uploadPDFToShopify($catalogDataCompiled['firstSlideImageURL'], $type);
 
-    public function test2(Request $request)
-    {
-        $request->validate([
-            'customerMail' => 'required|string',
-            'customerGID' => 'required',
-            'catalogName' => 'required|string',
-            'catalogDate' => 'required',
-            'customerName' => 'required|string',
-            'productsIds' => 'required|array',
-        ]);
-        
-        $productController = new productController;
-        $products = $productController->getAllProductByIds($request->productsIds);
-        dd($products);
+
+            if ($firstImageId != null) {
+                $catalogsFields = [
+                    [
+                        "key" => "internal_name",
+                        "value" => $catalogDataCompiled['catalog_internal_name'],
+                    ],
+                    [
+                        "key" => "name",
+                        "value" => $catalogDataCompiled['catalogName'],
+                    ],
+                    // [
+                    //     "key" => "image",
+                    //     "value" => $firstImageId,
+                    // ],
+                    [
+                        "key" => "image",
+                        "value" => $imageGID,
+                    ],
+                    [
+                        "key" => "date",
+                        "value" => date_format($catalogDate, DateTime::ATOM),
+                    ],
+                    [
+                        "key" => "client_email",
+                        "value" => $catalogDataCompiled['customerMail'],
+                    ],
+                    [
+                        "key" => "client_name",
+                        "value" => $catalogDataCompiled['customerName'],
+                    ],
+                    [
+                        "key" => "file",
+                        "value" => $pdfShopifyId
+                    ]
+                ];
+            } else {
+                $catalogsFields = [
+                    [
+                        "key" => "internal_name",
+                        "value" => $catalogDataCompiled['catalog_internal_name'],
+                    ],
+                    [
+                        "key" => "name",
+                        "value" => $catalogDataCompiled['catalogName'],
+                    ],
+                    [
+                        "key" => "image",
+                        "value" => $imageGID,
+                    ],
+                    [
+                        "key" => "date",
+                        "value" => date_format($catalogDate, DateTime::ATOM),
+                    ],
+                    [
+                        "key" => "client_email",
+                        "value" => $catalogDataCompiled['customerMail'],
+                    ],
+                    [
+                        "key" => "client_name",
+                        "value" => $catalogDataCompiled['customerName'],
+                    ],
+                    [
+                        "key" => "file",
+                        "value" => $pdfShopifyId
+                    ]
+                ];
+            }
+
+            $catalogMetaobject = $productController->createCatalogMetaobject($catalogsFields);
+            if (!$catalogMetaobject) {
+                throw new Exception($catalogMetaobject['message']);
+            }
+            Log::info('catalog metaobject crated');
+            $updateCustomerResponse = $this->updateCustomerCatalogMetafield($catalogDataCompiled['customerId'], $catalogMetaobject['metaobject_id']);
+            if (!$updateCustomerResponse) {
+                throw new Exception($updateCustomerResponse['message']);
+            }
+            Log::info('catalog metafield updated');
+            $this->sendCreatedEmail($catalogDataCompiled['customerMail'], $catalogDataCompiled['catalogName'], now()->format('d/m/Y'));
+            Log::info('Mail sent to: ' . $catalogDataCompiled['customerMail']);
+            $response = [
+                "status" => true,
+                "message" => "Catalog has been created an added it to its customer, mail has sent"
+            ];
+            $code = 200;
+        } catch (Exception $e) {
+            log::error($e->getMessage());
+            $response = [
+                "status" => false,
+                "message" => $e->getMessage()
+            ];
+            $code = 500;
+        } finally {
+            log::info("---End new catalog---");
+            return response()->json($response, $code);
+        }
     }
 }
