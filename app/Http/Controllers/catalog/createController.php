@@ -44,6 +44,7 @@ class createController extends Controller
             $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
             Storage::disk('public')->put($pdfFilename, $pdf->output());
             $pdf_url = Storage::disk('public')->url($pdfFilename);
+            Log::info('The pdf_url is: ' . $pdf_url);
 
             Log::info('catalog stored in server');
             $catalogDate = new \DateTime($catalogDataCompiled['date']);
