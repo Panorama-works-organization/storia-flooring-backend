@@ -140,7 +140,8 @@ class createController extends Controller
             Log::info('Mail sent to: ' . $catalogDataCompiled['customerMail']);
             $response = [
                 "status" => true,
-                "message" => "Catalog has been created an added it to its customer, mail has sent"
+                "message" => "Catalog has been created an added it to its customer, mail has sent",
+                "pdf_url" => $pdf_url
             ];
             $code = 200;
         } catch (Exception $e) {
