@@ -246,12 +246,13 @@ class createController extends Controller
             Storage::disk('public')->put($pdfFilename, $pdf->output());
             $pdf_url = Storage::disk('public')->url($pdfFilename);
             Log::info('PDF URL: ' . $pdf_url);
-
+            $correct_pdf_url = 'https://api-storia.panorama.works/storage/app/public/' . $pdfFilename;
+            Log::info('CORRECT PDF URL: ' . $correct_pdf_url);
             Log::info('catalog stored in server');
             $catalogDate = new \DateTime($catalogDataCompiled['date']);
             $productController = new productController;
 
-            $pdfShopifyId = $productController->uploadPDFToShopify($pdf_url, "FILE");
+            $pdfShopifyId = $productController->uploadPDFToShopify($correct_pdf_url, "FILE");
             Log::info('catalog updated to server');
             $firstImageName = $this->getImageNameFromUrl($catalogDataCompiled['firstSlideImageURL']);
             $firstImageId = $productController->queryImageByName($firstImageName);
