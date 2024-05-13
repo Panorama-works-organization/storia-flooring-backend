@@ -201,9 +201,10 @@ class createController extends Controller
         $internalName = $customerId . '_catalog_' .  $timeStamp;
         //$productController = new productController;
         //$products = $productController->getAllProductByIds($request->productsIds);
+        $upperlinedProductKeys = $this->formatProductStrings($request->products);
         $catalogNameChanged = str_replace(' ', '_', $request->catalogName);
         $templateData = [
-            'products' => $request->products,
+            'products' => $upperlinedProductKeys,
             'date' => $request->catalogDate,
             'customerName' => $request->customerName,
             'catalogName' => $request->catalogName,
@@ -356,5 +357,16 @@ class createController extends Controller
             log::info("---End new catalog---");
             return response()->json($response, $code);
         }
+    }
+
+    public function formatProductStrings ($products) {
+        foreach($products as &$product) {
+            foreach($product['metafields'] as &$metafield) {
+                $metafield['key'] = strtoupper($metafield['key']);
+                $metafield['key'] = str_replace("_", " ", $metafield['key']);
+                $metafield['value'] = str_replace("&quot", "'", $metafield['value']);
+            }
+        }
+        return $products;
     }
 }

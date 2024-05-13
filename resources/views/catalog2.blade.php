@@ -145,14 +145,15 @@
                     <table style="width: 100%; margin: 40px 0 0 0;">
                     </table>
                     <table style="width: 100%;">
-                        <tr>
-                            <td><hr></td>
-                            <td><hr></td>
-                        </tr>
+
                         @foreach ($product['metafields'] as $metafield)
-                            <tr>
-                                <td style="font-family: 'Arimo-Regular';">{{$metafield['key']}}</td>
-                                <td style="text-align: right; font-family: 'Arimo-Regular';">{{$metafield['value']}}</td>
+                        <tr>
+                            <td><hr style="border-width: 0.5px;"></td>
+                            <td><hr style="border-width: 0.5px;"></td>
+                        </tr>
+                            <tr style="align-items: center;">
+                                <td style="font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
+                                <td style="text-align: right; font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['value']}}</td>
                             </tr>
                         @endforeach
                         <tr>
@@ -163,7 +164,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 35%; height: 10%; text-align: center; vertical-align: top; font-size: xx-large; font-family: 'Arimo-Regular';">{{$product['title']}}</td>
+                <td style="width: 35%; height: 8%; text-align: center; vertical-align: top; font-size: xx-large; font-family: 'Arimo-Regular';">{{$product['title']}}</td>
             </tr>
             <tr>
                 <td style="width: 35%; height: 10%; text-align: center; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['min_price']}} / {{$product['max_price']}}</td>
