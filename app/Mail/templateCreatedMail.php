@@ -27,7 +27,7 @@ class templateCreatedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Catálogo listo para descarga',
+            subject: 'Catalogue ready for download',
         );
     }
 

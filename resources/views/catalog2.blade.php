@@ -124,53 +124,62 @@
     ****
     -->
 @foreach ($data['products'] as $product)
-    <section id="main-body" style="background: #EDECE6; background-size: cover; padding: 50px;">
-        <table style="width: 100%; height: 10%;">
-            <tr>
-                <td style="text-align: center; vertical-align: middle;">
-                    <div style="display: flex; justify-content: center; align-items: center;">
-                        <img src="https://i.imgur.com/f4Q6zJM.png" alt="product-image" width="160">
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <table style="width: 100%; height: 90%;">
-            <tr>
-                <td style="width: 40%; height: 50%; text-align: center; vertical-align: middle;">
-                    <div style="display: flex; justify-content: center; align-items: center;">
-                        <img src="{{$product['image_url']}}" alt="product-image" width="300" height="300">
-                    </div>
-                </td>
-                <td style="width: 60%;">
-                    <table style="width: 100%; margin: 40px 0 0 0;">
-                    </table>
-                    <table style="width: 100%;">
 
-                        @foreach ($product['metafields'] as $metafield)
-                        <tr>
-                            <td><hr style="border-width: 0.5px;"></td>
-                            <td><hr style="border-width: 0.5px;"></td>
+<section id="main-body" style="background: #EDECE6; background-size: cover; padding: 50px;">
+    <table style="width: 100%; height: 10% 0 0 0;">
+        <tr>
+            <td style="text-align: center; vertical-align: middle;">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://i.imgur.com/f4Q6zJM.png" alt="product-image" width="160">
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%; height: 90.7%; padding: 3.5% 0 0 0;">
+        <tr>
+            <td style="width: 40%; text-align: center; vertical-align: middle; padding-top: 65px;">
+                <table style="margin: 0 auto;">
+                    <tr>
+                        <td style="text-align: center;">
+                            <img src="{{$product['image_url']}}" alt="product-image" width="300" height="300">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Arimo-Regular'; padding-top: 50px; font-size: xx-large;">{{$product['title']}}</td>
+                    </tr>
+                    <tr>
+                        @if ($product['min_price'] === $product['max_price'])
+                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['max_price']}}</td>
+                        @else
+                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['min_price']}} - {{$product['max_price']}}</td>
+                        @endif
+                        
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 60%; vertical-align: bottom;">
+                <table style="width: 100%; align-content: end;">
+
+                    @foreach ($product['metafields'] as $metafield)
+                    <tr>
+                        <td><hr style="border-width: 0.5px;"></td>
+                        <td><hr style="border-width: 0.5px;"></td>
+                    </tr>
+                        <tr style="align-items: center;">
+                            <td style="font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
+                            <td style="text-align: right; font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['value']}}</td>
                         </tr>
-                            <tr style="align-items: center;">
-                                <td style="font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
-                                <td style="text-align: right; font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['value']}}</td>
-                            </tr>
-                        @endforeach
-                        <tr>
-                            <td><hr></td>
-                            <td><hr></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 35%; height: 8%; text-align: center; vertical-align: top; font-size: xx-large; font-family: 'Arimo-Regular';">{{$product['title']}}</td>
-            </tr>
-            <tr>
-                <td style="width: 35%; height: 10%; text-align: center; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['min_price']}} / {{$product['max_price']}}</td>
-            </tr>
-        </table>
-    </section>
+                    @endforeach
+                    <tr>
+                        <td><hr></td>
+                        <td><hr></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</section>
+
 @endforeach
     <!--
     ****

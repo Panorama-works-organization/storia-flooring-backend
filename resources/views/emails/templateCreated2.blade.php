@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Tu catalogo esta listo para descargar</title>
+    <title>Your catalogue is ready for download</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
 
@@ -210,7 +210,7 @@
                                                     <td>
                                                         <h2
                                                             style="font-family: 'Playfair Display'; font-weight: normal; font-size: 24px; margin: 0 0 10px;">
-                                                            ¡Tu catálogo {{ $catalogName }} está listo para descargarse!
+                                                            Your catalogue {{ $catalogName }} is ready to be downloaded!
                                                         </h2>
 
                                                         <table class="row actions"
@@ -224,7 +224,7 @@
                                                                     <td class="actions__cell">
                                                                         <p
                                                                             style="font-family: 'Serif'; font-size: 16px; color: #101010;">
-                                                                            Ingresa a tu cuenta para descargarlo.</p>
+                                                                            Log in to download your catalogue</p>
                                                                         <table class="button main-action-cell"
                                                                             style="border-spacing: 0; border-collapse: collapse; float: left; margin-right: 15px;">
                                                                             <tbody>
@@ -236,8 +236,8 @@
 
                                                                                         <a href="https://storia-flooring.myshopify.com/account/"
                                                                                             class="button__text"
-                                                                                            style="font-family: 'Serif'; font-size: 16px; text-decoration: none; display: block; color: #fff; padding: 20px 25px;">Ir
-                                                                                            a mi cuenta</a>
+                                                                                            style="font-family: 'Serif'; font-size: 16px; text-decoration: none; display: block; color: #fff; padding: 20px 25px;">Go
+                                                                                            to my account</a>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -272,8 +272,8 @@
 
                                                         <p class="disclaimer__subtext"
                                                             style="font-family: 'Serif'; color: #999; line-height: 150%; font-size: 14px; margin: 0;">
-                                                            Si tienes alguna pregunta, responde este correo electrónico
-                                                            o contáctanos a través de <a
+                                                            If you have any questions, reply to this email
+                                                            or contact us at <a
                                                                 href="mailto:santiago@storiaflooring.com"
                                                                 style="font-family: 'Serif'; font-size: 14px; text-decoration: none; color: #101010;">santiago@storiaflooring.com</a>
                                                         </p>

@@ -369,4 +369,38 @@ class createController extends Controller
         }
         return $products;
     }
+
+    public function test(Request $request)
+    {
+        $response = $code = null;
+        try {
+            Log::info('---Init new catalog---');
+            $request->validate([
+                'customerMail' => 'required|string',
+                'catalogName' => 'required|string',
+                'customerName' => 'required|string',
+                'customerId' => 'required',
+                'catalogDate' => 'required',
+                'firstSlideImageURL' => 'required|url',
+                'products' => 'required|array',
+            ]);
+            Log::info('Pass validation request data');
+
+            $catalogDataCompiled = $this->compileCatalogData($request);
+
+            Log::info('Data compiled');
+            $pdf = PDF::loadView('catalog2', [
+                "data" => $catalogDataCompiled
+            ]);
+
+            Log::info('Data pass to catalog view');
+            $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
+            Storage::disk('public')->put($pdfFilename, $pdf->output());
+            $pdf_url = Storage::disk('public')->url($pdfFilename);
+            Log::info('PDF URL: ' . $pdf_url);
+            return true;
+        } catch(Exception $e) {
+            return false;
+        }
+    }
 }
