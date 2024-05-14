@@ -274,8 +274,8 @@
                                                             style="font-family: 'Serif'; color: #999; line-height: 150%; font-size: 14px; margin: 0;">
                                                             If you have any questions, reply to this email
                                                             or contact us at <a
-                                                                href="mailto:santiago@storiaflooring.com"
-                                                                style="font-family: 'Serif'; font-size: 14px; text-decoration: none; color: #101010;">santiago@storiaflooring.com</a>
+                                                                href="mailto:contact@storiaflooring.com"
+                                                                style="font-family: 'Serif'; font-size: 14px; text-decoration: none; color: #101010;">contact@storiaflooring.com</a>
                                                         </p>
                                                     </td>
                                                 </tr>
