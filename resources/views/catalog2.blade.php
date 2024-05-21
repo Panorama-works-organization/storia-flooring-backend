@@ -105,14 +105,14 @@
         </table>
         <table style="width: 30%; height: 5%;">
             <tr>
-                <td style="color: white;">CLIENT</td>
-                <td style="color: white;">DATE</td>
+                <td style="color: white; width: 50%;">CLIENT</td>
+                <td style="color: white; width: 50%;">DATE</td>
             </tr>
         </table>
-        <table style="width: 27%; height: 75%;">
+        <table style="width: 30%; height: 75%;">
             <tr>
-                <td style="color: white; font-family: 'Arimo-Regular';">{{$data['customerName']}}</td>
-                <td style="color: white; font-family: 'Arimo-Regular';">{{$data['date']}}</td>
+                <td style="color: white; font-family: 'Arimo-Regular'; width: 50%;">{{$data['customerName']}}</td>
+                <td style="color: white; font-family: 'Arimo-Regular'; text-align: left; width: 50%;">{{$data['date']}}</td>
             </tr>
         </table>
     </section>
