@@ -164,8 +164,8 @@
 
                     @foreach ($product['metafields'] as $metafield)
                     <tr>
-                        <td><hr style="border-width: 0.5px; color: black;"></td>
-                        <td><hr style="border-width: 0.5px; color: black;"></td>
+                        <td><hr style="border: 0; border-top: 1px solid #000000;"></td>
+                        <td><hr style="border: 0; border-top: 1px solid #000000;"></td>
                     </tr>
                         <tr style="align-items: center;">
                             <td style="font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
@@ -173,8 +173,8 @@
                         </tr>
                     @endforeach
                     <tr>
-                        <td><hr></td>
-                        <td><hr></td>
+                        <td><hr style="border: 0; border-top: 1px solid #000000;"></td>
+                        <td><hr style="border: 0; border-top: 1px solid #000000;"></td>
                     </tr>
                 </table>
             </td>
