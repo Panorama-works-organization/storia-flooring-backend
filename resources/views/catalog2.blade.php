@@ -145,7 +145,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-family: 'Arimo-Regular'; padding-top: 50px; font-size: xx-large;">{{$product['title']}}</td>
+                        <td style="font-family: 'Arimo-Regular'; padding-top: 50px; font-size: xx-large; width: 300px; word-wrap: break-word;">
+                            {{$product['title']}}
+                        </td>
                     </tr>
                     <tr>
                         @if ($product['min_price'] === $product['max_price'])
@@ -162,8 +164,8 @@
 
                     @foreach ($product['metafields'] as $metafield)
                     <tr>
-                        <td><hr style="border-width: 0.5px;"></td>
-                        <td><hr style="border-width: 0.5px;"></td>
+                        <td><hr style="border-width: 0.5px; color: black;"></td>
+                        <td><hr style="border-width: 0.5px; color: black;"></td>
                     </tr>
                         <tr style="align-items: center;">
                             <td style="font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
@@ -179,6 +181,7 @@
         </tr>
     </table>
 </section>
+
 
 @endforeach
     <!--
