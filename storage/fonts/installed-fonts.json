@@ -1,8 +1,15 @@
 {
     "playfairdisplay-medium": {
-        "normal": "playfairdisplay_medium_normal_56617bf665b7835f68c99a0e7623ecb6"
+        "normal": "playfairdisplay_medium_normal_bb96c2d2ea09aea2415eaa809ae5284c"
     },
     "arimo-regular": {
-        "normal": "arimo_regular_normal_1f19fc7d23b7c2b42250eba78ca65085"
+        "normal": "arimo_regular_normal_91643eb40157330436bb2509fcbfbcf4"
+    },
+    "neue-haas-unica": {
+        "normal": "\/Users\/panorama\/Sites\/storia-flooring-backend\/storage\/fonts\/neue_haas_unica_normal_ab2b6c2e387c0ee54ec55f6ffd06c41d",
+        "100": "neue_haas_unica_100_cbf3a3974976d4e0d16206d5fe0602f0"
+    },
+    "gt super display": {
+        "italic": "gt_super_display_italic_48d901d5d3671bb8bf054e66609dbcf4"
     }
 }
