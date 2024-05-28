@@ -203,13 +203,17 @@ class createController extends Controller
         //$products = $productController->getAllProductByIds($request->productsIds);
         $upperlinedProductKeys = $this->formatProductStrings($request->products);
         $catalogNameChanged = str_replace(' ', '_', $request->catalogName);
+        $portraitImageUrl = $request->firstSlideImageURL;
+        $portraitImageUrl = preg_replace('/_300x300/', '', $portraitImageUrl);
+        $portraitImageUrl .= '&width=1920';
+        $formatDate = date('d.m.Y', strtotime($request->catalogDate));
         $templateData = [
             'products' => $upperlinedProductKeys,
-            'date' => $request->catalogDate,
+            'date' => $formatDate,
             'customerName' => $request->customerName,
             'catalogName' => $request->catalogName,
             'catalogSubtitle' => $request->catalogSubtitle,
-            'firstSlideImageURL' => $request->firstSlideImageURL,
+            'firstSlideImageURL' => $portraitImageUrl,
             'catalogNameChanged' => $catalogNameChanged,
             'timeStamp' => $timeStamp,
             'customerId' => $customerId,
@@ -246,6 +250,7 @@ class createController extends Controller
             $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
             Storage::disk('public')->put($pdfFilename, $pdf->output());
             $pdf_url = Storage::disk('public')->url($pdfFilename);
+            dd('pdf created');
             Log::info('PDF URL: ' . $pdf_url);
             $correct_pdf_url = 'https://api-storia.panorama.works/storage/app/public/' . $pdfFilename;
             Log::info('CORRECT PDF URL: ' . $correct_pdf_url);
@@ -359,20 +364,25 @@ class createController extends Controller
         }
     }
 
-    public function formatProductStrings ($products) {
-        foreach($products as &$product) {
-            foreach($product['metafields'] as &$metafield) {
+    public function formatProductStrings($products)
+    {
+        foreach ($products as &$product) {
+            foreach ($product['metafields'] as &$metafield) {
                 $metafield['key'] = strtoupper($metafield['key']);
                 $metafield['key'] = str_replace("_", " ", $metafield['key']);
-                $metafield['value'] = str_replace("&quot", "'", $metafield['value']);
+                $metafield['value'] = str_replace("&quot;", "'", $metafield['value']);
+            }
+            foreach ($product['options'] as &$option) {
+                $option['name'] = strtoupper($option['name']);
+                $option['values'] = str_replace("_", " ", $option['values']);
+                $option['values'] = str_replace("&quot;", "'", $option['values']);
             }
         }
+
         return $products;
     }
-
     public function test(Request $request)
     {
-        $response = $code = null;
         try {
             Log::info('---Init new catalog---');
             $request->validate([
@@ -398,9 +408,49 @@ class createController extends Controller
             Storage::disk('public')->put($pdfFilename, $pdf->output());
             $pdf_url = Storage::disk('public')->url($pdfFilename);
             Log::info('PDF URL: ' . $pdf_url);
-            return true;
-        } catch(Exception $e) {
-            return false;
+            return response()->json([
+                "status" => true,
+                "message" => "Catalog has been created an added it to its customer, mail has sent",
+                "pdf_url" => $pdf_url
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "message" => $e->getMessage() . " - " . $e->getLine()
+            ]);
         }
     }
+    // public function test(Request $request)
+    // {
+    //     $response = $code = null;
+    //     try {
+    //         Log::info('---Init new catalog---');
+    //         $request->validate([
+    //             'customerMail' => 'required|string',
+    //             'catalogName' => 'required|string',
+    //             'customerName' => 'required|string',
+    //             'customerId' => 'required',
+    //             'catalogDate' => 'required',
+    //             'firstSlideImageURL' => 'required|url',
+    //             'products' => 'required|array',
+    //         ]);
+    //         Log::info('Pass validation request data');
+
+    //         $catalogDataCompiled = $this->compileCatalogData($request);
+    //         dd($catalogDataCompiled);
+    //         Log::info('Data compiled');
+    //         $pdf = PDF::loadView('catalog2', [
+    //             "data" => $catalogDataCompiled
+    //         ]);
+
+    //         Log::info('Data pass to catalog view');
+    //         $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
+    //         Storage::disk('public')->put($pdfFilename, $pdf->output());
+    //         $pdf_url = Storage::disk('public')->url($pdfFilename);
+    //         Log::info('PDF URL: ' . $pdf_url);
+    //         return true;
+    //     } catch (Exception $e) {
+    //         return false;
+    //     }
+    // }
 }

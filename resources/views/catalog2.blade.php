@@ -7,7 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-       
+        @font-face {
+            font-family: 'neue-haas-unica';
+            src: url({{ storage_path("fonts/NeueHaasUnica-Regular.ttf") }}) format("truetype");
+            font-weight: 400;
+            font-style: normal;
+        }
+         @font-face {
+            font-family: 'neue-haas-unica';
+            src: url({{ storage_path("fonts/NeueHaasUnica-Light.ttf") }}) format("truetype");
+            font-weight: 100;
+            font-style: light;
+        }
+
+        @font-face {
+            font-family: 'Gt Super Display';
+            src: url({{ storage_path("fonts/GT-Super-Display-Regular-Trial.otf") }}) format("truetype");
+            font-weight: 400;
+            font-style: italic;
+        }
         *{
             margin: 0;
             padding: 0;
@@ -43,19 +61,7 @@
             line-height: 1;
             /* font-family: sans-serif; */
         }
-        @font-face {
-	        font-family: 'Arimo-Regular';
-	        font-style: normal;
-	        font-weight: normal;
-	        src: url("../storage/fonts/Arimo-Regular.ttf") format('truetype');
-	    }
-
-        @font-face {
-	        font-family: 'PlayfairDisplay-Medium';
-	        font-style: normal;
-	        font-weight: normal;
-	        src: url("../storage/fonts/PlayfairDisplay-Medium.ttf") format('truetype');
-	    }
+       
         ol, ul {
             list-style: none;
         }
@@ -99,20 +105,20 @@
         </table>
         <table style="width: 100%; height: 10%;">
             <tr>
-                <td style="color: white; font-size: xx-large; font-family:'PlayfairDisplay-Medium';">{{$data['catalogName']}}</td> 
-                <td style="color: white; font-size: large; font-family: 'Arimo-Regular'; justify-content:end;">{{$data['catalogSubtitle']}}</td>
+                <td style="color: white; font-size: xx-large; font-family:'Gt Super Display';">{{$data['catalogName']}}</td> 
+                {{-- <td style="color: white; font-size: large; font-family: 'neue-haas-unica'; justify-content:end;">{{$data['catalogSubtitle']}}</td> --}}
             </tr>
         </table>
         <table style="width: 30%; height: 5%;">
-            <tr>
-                <td style="color: white;">CLIENT</td>
-                <td style="color: white;">DATE</td>
+            <tr align ="left" style="text-align: left;">
+                <td style="width: 50%;color: white;font-family: 'neue-haas-unica';text-align: left;">CLIENT</td>
+                <td style="width: 50%;color: white;font-family: 'neue-haas-unica';text-align: left;">DATE</td>
             </tr>
         </table>
-        <table style="width: 27%; height: 75%;">
-            <tr>
-                <td style="color: white; font-family: 'Arimo-Regular';">{{$data['customerName']}}</td>
-                <td style="color: white; font-family: 'Arimo-Regular';">{{$data['date']}}</td>
+        <table style="width: 30%; height: 75%;">
+            <tr align ="left" style="text-align: left;">
+                <td style="width: 50%;color: white; font-family: 'neue-haas-unica'; text-align: left;">{{$data['customerName']}}</td>
+                <td style="width: 50%;color: white; font-family: 'neue-haas-unica';text-align: left;">{{$data['date']}}</td>
             </tr>
         </table>
     </section>
@@ -145,15 +151,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-family: 'Arimo-Regular'; padding-top: 50px; font-size: xx-large; width: 300px; word-wrap: break-word;">
+                        <td style="font-family: 'neue-haas-unica'; padding-top: 50px; font-size: xx-large; width: 300px; word-wrap: break-word;">
                             {{$product['title']}}
                         </td>
                     </tr>
                     <tr>
                         @if ($product['min_price'] === $product['max_price'])
-                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['max_price']}}</td>
+                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'neue-haas-unica';font-weight:100;">{{$product['max_price']}}</td>
                         @else
-                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'Arimo-Regular';">{{$product['min_price']}} - {{$product['max_price']}}</td>
+                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'neue-haas-unica';font-weight:100;">{{$product['min_price']}} - {{$product['max_price']}}</td>
                         @endif
                         
                     </tr>
@@ -164,17 +170,29 @@
 
                     @foreach ($product['metafields'] as $metafield)
                     <tr>
-                        <td><hr style="border-width: 0.5px; color: black;"></td>
-                        <td><hr style="border-width: 0.5px; color: black;"></td>
+                        <td><hr style="border-width: 0.5px; color: #262626;"></td>
+                        <td><hr style="border-width: 0.5px; color: #262626;"></td>
                     </tr>
                         <tr style="align-items: center;">
-                            <td style="font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
-                            <td style="text-align: right; font-family: 'Arimo-Regular'; padding: 8px 0 8px 0; align-items: center;">{{$metafield['value']}}</td>
+                            <td style="font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
+                            <td style="text-align: right; font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$metafield['value']}}</td>
                         </tr>
                     @endforeach
+                    @foreach ($product['options'] as $option)
+                        @if($option['name'] != 'TITLE')
+                         <tr>
+                            <td><hr style="border-width: 0.5px; color: #262626;"></td>
+                            <td><hr style="border-width: 0.5px; color: #262626;"></td>
+                        </tr>
+                            <tr style="align-items: center;">
+                                <td style="font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$option['name']}}</td>
+                                <td style="text-align: right; font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$option['values']}}</td>
+                            </tr>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td><hr></td>
-                        <td><hr></td>
+                        <td><hr style="border-width: 0.5px; color: #262626;"></td>
+                        <td><hr style="border-width: 0.5px; color: #262626;"></td>
                     </tr>
                 </table>
             </td>
@@ -191,7 +209,7 @@
     ****
     -->
 
-    <section id="back-page" style="background: #262626; background-size: cover; padding: 30px;">
+    <section id="back-page" style="background: #262626; background-size: cover; padding: 30px;heigth: 100vh;">
         <p style="font-size: x-large; margin: 80px 0 30px 0"> </p>
         <table style="width: 100%; heigth: 100%;">
             <tr style="width: 100%; heigth: 90%; text-align: center; vertical-align: middle;">
@@ -202,17 +220,17 @@
                 </td>
             </tr>
         </table>
-        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; margin: 40px 0 0 0; font-family:'PlayfairDisplay-Medium';">The perfect</p>
-        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; font-family:'PlayfairDisplay-Medium';">flooring solutions.</p>
+        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; margin: 40px 0 0 0; font-family:'Gt Super Display';">The perfect</p>
+        <p style="color: white; text-align: center; justify-content: center; font-size: 40px; font-family:'Gt Super Display';">flooring solutions.</p>
         <hr style="height 4px; background-color: white; margin: 185px 0 0 0;">
         <table style="width: 100%; heigth: 100%; margin: 25px 0 0 0;">
             <tr>
-                <td style="color: white; font-family: 'Arimo-Regular';">© {{now()->year}} Storia Flooring. All rights reserved.</td>
+                <td style="color: white; font-family: 'neue-haas-unica';">© {{now()->year}} Storia Flooring. All rights reserved.</td>
                 <td style="color: white; text-align: right;">
-                    <a style="color: white; text-decoration:none; font-family: 'Arimo-Regular';" href="https://storiaflooring.com/" target="_blank">@StoriaFlooring</a>
+                    <a style="color: white; text-decoration:none; font-family: 'neue-haas-unica';" href="https://storiaflooring.com/" target="_blank">@StoriaFlooring</a>
                 </td>
                 <td style="color: white; text-align: right;">
-                    <a style="color: white; text-decoration:none; font-family: 'Arimo-Regular';" href="https://storiaflooring.com/" target="_blank">www.storiaflooring.com</a>
+                    <a style="color: white; text-decoration:none; font-family: 'neue-haas-unica';" href="https://storiaflooring.com/" target="_blank">www.storiaflooring.com</a>
                 </td>
             </tr>
         </table>
