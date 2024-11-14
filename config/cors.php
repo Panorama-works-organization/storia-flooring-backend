@@ -19,7 +19,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+    'https://storia-flooring.myshopify.com',
+    'https://www.storiaflooring.com',
+    'http://127.0.0.1:9292',
+    ],
 
     'allowed_origins_patterns' => [],
 
