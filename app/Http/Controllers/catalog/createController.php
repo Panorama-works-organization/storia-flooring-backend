@@ -228,7 +228,7 @@ class createController extends Controller
         foreach ($products as &$product) {
             foreach($product["metafields"] as &$metafield) {
                 $ultimoCaracter = substr($metafield["value"], -1);
-                if ($ultimoCaracter == ";") {
+                if ($ultimoCaracter == ",") {
                     $ultimoCaracter = "";
                     $metafield["value"] = substr($metafield["value"], 0, -1) . $ultimoCaracter;
                 }
