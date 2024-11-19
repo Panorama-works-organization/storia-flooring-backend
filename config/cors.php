@@ -1,5 +1,4 @@
 <?php
-
 return [
 
     /*
@@ -17,7 +16,7 @@ return [
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
     'allowed_origins' => [
     'https://storia-flooring.myshopify.com',
@@ -27,7 +26,7 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['Content-Type', 'X-Requested-With', 'Authorization'],
 
     'exposed_headers' => [],
 
