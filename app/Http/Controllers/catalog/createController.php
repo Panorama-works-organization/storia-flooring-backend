@@ -221,12 +221,14 @@ class createController extends Controller
             'customerMail' => $request->customerMail,
             'catalog_internal_name' => $internalName
         ];
+
         return $templateData;
     }
 
-    function removeComaFromMetafields($products) {
+    function removeComaFromMetafields($products)
+    {
         foreach ($products as &$product) {
-            foreach($product["metafields"] as &$metafield) {
+            foreach ($product["metafields"] as &$metafield) {
                 $ultimoCaracter = substr($metafield["value"], -1);
                 if ($ultimoCaracter == ",") {
                     $ultimoCaracter = "";
@@ -260,7 +262,6 @@ class createController extends Controller
             $pdf = PDF::loadView('catalog2', [
                 "data" => $catalogDataCompiled
             ]);
-
             Log::info('Data pass to catalog view');
             $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
             Storage::disk('public')->put($pdfFilename, $pdf->output());
@@ -369,7 +370,8 @@ class createController extends Controller
             log::error($e->getMessage());
             $response = [
                 "status" => false,
-                "message" => $e->getMessage()
+                "message" => $e->getMessage(),
+                "line" => $e->getLine()
             ];
             $code = 500;
         } finally {
@@ -380,6 +382,7 @@ class createController extends Controller
 
     public function formatProductStrings($products)
     {
+
         foreach ($products as &$product) {
             foreach ($product['metafields'] as &$metafield) {
                 $metafield['key'] = strtoupper($metafield['key']);
