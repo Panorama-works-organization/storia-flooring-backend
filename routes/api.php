@@ -25,5 +25,5 @@ Route::prefix('v1')->group(function () {
     Route::POST('/catalog/generate', [createController::class, 'createCatalog']);
     Route::POST('/catalog/generate2', [createController::class, 'createCatalog2']);
     //Route::POST('/catalog/test', [createController::class, 'test']);
-    Route::POST('/catalog/create-test', [createController::class, 'test']);
+    //Route::POST('/catalog/create-test', [createController::class, 'test']);
 });
