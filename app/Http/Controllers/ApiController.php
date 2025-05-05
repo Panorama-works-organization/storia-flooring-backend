@@ -428,7 +428,7 @@ class ApiController extends Controller
 
         $productController = new productController;
         $productos = $request->input('productsIds');
-        $products = $productController->getProductsByIdsREST($productos);
+        $products = $productController->getProductsByIdsGraph($productos);
 
         return $products;
     }

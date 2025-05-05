@@ -201,8 +201,8 @@ class createController extends Controller
         $internalName = $customerId . '_catalog_' .  $timeStamp;
         //$productController = new productController;
         //$products = $productController->getAllProductByIds($request->productsIds);
-        $upperlinedProductKeys = $this->formatProductStrings($request->products);
-
+        $polishedProducts = $this->removeComaFromMetafields($request->products);
+        $upperlinedProductKeys = $this->formatProductStrings($polishedProducts);
         $catalogNameChanged = str_replace(' ', '_', $request->catalogName);
         $portraitImageUrl = $request->firstSlideImageURL;
         $portraitImageUrl = preg_replace('/_300x300/', '', $portraitImageUrl);
@@ -224,6 +224,21 @@ class createController extends Controller
 
         return $templateData;
     }
+
+    function removeComaFromMetafields($products)
+    {
+        foreach ($products as &$product) {
+            foreach ($product["metafields"] as &$metafield) {
+                $ultimoCaracter = substr($metafield["value"], -1);
+                if ($ultimoCaracter == ",") {
+                    $ultimoCaracter = "";
+                    $metafield["value"] = substr($metafield["value"], 0, -1) . $ultimoCaracter;
+                }
+            }
+        }
+        return $products;
+    }
+
 
     public function createCatalog2(Request $request)
     {
@@ -251,7 +266,6 @@ class createController extends Controller
             $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
             Storage::disk('public')->put($pdfFilename, $pdf->output());
             $pdf_url = Storage::disk('public')->url($pdfFilename);
-
             Log::info('PDF URL: ' . $pdf_url);
             $correct_pdf_url = 'https://api-storia.panorama.works/storage/app/public/' . $pdfFilename;
             Log::info('CORRECT PDF URL: ' . $correct_pdf_url);

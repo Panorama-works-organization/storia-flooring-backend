@@ -151,21 +151,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-family: 'neue-haas-unica'; padding-top: 50px; font-size: xx-large; width: 300px; word-wrap: break-word;">
+                        <td style="font-family: 'neue-haas-unica'; padding-top: 35px; font-size: xx-large; width: 300px; word-wrap: break-word;">
                             {{$product['title']}}
                         </td>
                     </tr>
-                    <tr>
-                        @if ($product['min_price'] === $product['max_price'])
-                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'neue-haas-unica';font-weight:100;">{{$product['max_price']}}</td>
-                        @else
-                            <td style="width: 35%; height: 10% 0 0 0; text-align: start; vertical-align: top; font-size: x-large; font-family: 'neue-haas-unica';font-weight:100;">{{$product['min_price']}} - {{$product['max_price']}}</td>
-                        @endif
-                        
-                    </tr>
                 </table>
             </td>
-            <td style="width: 60%; vertical-align: bottom;">
+            <td style="width: 60%; vertical-align: top; padding-top: 65px;">
                 <table style="width: 100%; align-content: end;">
 
                     @foreach ($product['metafields'] as $metafield)
