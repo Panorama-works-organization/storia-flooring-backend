@@ -201,6 +201,7 @@ class createController extends Controller
         $internalName = $customerId . '_catalog_' .  $timeStamp;
         //$productController = new productController;
         //$products = $productController->getAllProductByIds($request->productsIds);
+
         $polishedProducts = $this->removeComaFromMetafields($request->products);
         $upperlinedProductKeys = $this->formatProductStrings($polishedProducts);
         $catalogNameChanged = str_replace(' ', '_', $request->catalogName);
@@ -227,15 +228,19 @@ class createController extends Controller
 
     function removeComaFromMetafields($products)
     {
+
         foreach ($products as &$product) {
             foreach ($product["metafields"] as &$metafield) {
-                $ultimoCaracter = substr($metafield["value"], -1);
-                if ($ultimoCaracter == ",") {
-                    $ultimoCaracter = "";
-                    $metafield["value"] = substr($metafield["value"], 0, -1) . $ultimoCaracter;
+                if (!is_array($metafield['value'])) {
+                    $ultimoCaracter = substr($metafield["value"], -1);
+                    if ($ultimoCaracter == ",") {
+                        $ultimoCaracter = "";
+                        $metafield["value"] = substr($metafield["value"], 0, -1) . $ultimoCaracter;
+                    }
                 }
             }
         }
+
         return $products;
     }
 
@@ -257,7 +262,6 @@ class createController extends Controller
             Log::info('Pass validation request data');
 
             $catalogDataCompiled = $this->compileCatalogData($request);
-
             Log::info('Data compiled');
             $pdf = PDF::loadView('catalog2', [
                 "data" => $catalogDataCompiled
