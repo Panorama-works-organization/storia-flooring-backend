@@ -175,21 +175,29 @@
                     </tr>
                         <tr style="align-items: center;">
                             <td style="font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$metafield['key']}}</td>
-                            <td style="text-align: right; font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$metafield['value']}}</td>
+                            <td style="text-align: right; font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">
+                                @if ( is_array($metafield['value']))
+                                    {{implode(', ', $metafield['value'])}}
+                                @else
+                                    {{$metafield['value']}}
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
-                    @foreach ($product['options'] as $option)
-                        @if($option['name'] != 'TITLE')
-                         <tr>
-                            <td><hr style="border-width: 0.5px; color: #262626;"></td>
-                            <td><hr style="border-width: 0.5px; color: #262626;"></td>
-                        </tr>
-                            <tr style="align-items: center;">
-                                <td style="font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$option['name']}}</td>
-                                <td style="text-align: right; font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$option['values']}}</td>
-                            </tr>
-                        @endif
-                    @endforeach
+                    @if ($product['options'])
+                            @foreach ($product['options'] as $option)
+                                @if($option['name'] != 'TITLE')
+                                <tr>
+                                    <td><hr style="border-width: 0.5px; color: #262626;"></td>
+                                    <td><hr style="border-width: 0.5px; color: #262626;"></td>
+                                </tr>
+                                    <tr style="align-items: center;">
+                                        <td style="font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$option['name']}}</td>
+                                        <td style="text-align: right; font-family: 'neue-haas-unica'; font-weight:100; padding: 8px 0 8px 0; align-items: center;">{{$option['values']}}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                    @endif
                     <tr>
                         <td><hr style="border-width: 0.5px; color: #262626;"></td>
                         <td><hr style="border-width: 0.5px; color: #262626;"></td>

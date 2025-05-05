@@ -202,6 +202,7 @@ class createController extends Controller
         //$productController = new productController;
         //$products = $productController->getAllProductByIds($request->productsIds);
         $upperlinedProductKeys = $this->formatProductStrings($request->products);
+
         $catalogNameChanged = str_replace(' ', '_', $request->catalogName);
         $portraitImageUrl = $request->firstSlideImageURL;
         $portraitImageUrl = preg_replace('/_300x300/', '', $portraitImageUrl);
@@ -220,6 +221,7 @@ class createController extends Controller
             'customerMail' => $request->customerMail,
             'catalog_internal_name' => $internalName
         ];
+
         return $templateData;
     }
 
@@ -245,12 +247,11 @@ class createController extends Controller
             $pdf = PDF::loadView('catalog2', [
                 "data" => $catalogDataCompiled
             ]);
-
             Log::info('Data pass to catalog view');
             $pdfFilename = $catalogDataCompiled['catalogNameChanged'] . '-' . now()->timestamp . '.pdf';
             Storage::disk('public')->put($pdfFilename, $pdf->output());
             $pdf_url = Storage::disk('public')->url($pdfFilename);
-            dd('pdf created');
+
             Log::info('PDF URL: ' . $pdf_url);
             $correct_pdf_url = 'https://api-storia.panorama.works/storage/app/public/' . $pdfFilename;
             Log::info('CORRECT PDF URL: ' . $correct_pdf_url);
@@ -355,7 +356,8 @@ class createController extends Controller
             log::error($e->getMessage());
             $response = [
                 "status" => false,
-                "message" => $e->getMessage()
+                "message" => $e->getMessage(),
+                "line" => $e->getLine()
             ];
             $code = 500;
         } finally {
@@ -366,6 +368,7 @@ class createController extends Controller
 
     public function formatProductStrings($products)
     {
+
         foreach ($products as &$product) {
             foreach ($product['metafields'] as &$metafield) {
                 $metafield['key'] = strtoupper($metafield['key']);
